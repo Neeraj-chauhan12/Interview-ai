@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const BlackListed=require("../models/BlackListed")
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-parser");       
 
@@ -13,8 +13,8 @@ exports.register = async (req, res) => {
         return res.status(400).json({message:"All fields are required"})
     }
 
-    const existUser = await User.find({
-      $or: [{ username: username }, { email: email }],
+    const existUser = await User.findOne({
+      $or: [{username }, { email }],
     });
 
     if (existUser) {
@@ -82,5 +82,20 @@ exports.logout=async(req,res)=>{
         await BlackListed.create({token})
         res.clearCookie("token");
         return res.status(200).json({message:"Logout successful"})
+    }
+}
+
+
+exports.getUser=async(req,res)=>{
+    const userId=req.user._id;
+    try {
+        const user=await User.findById(userId).select("-password");
+        if(!user){
+            return res.status(404).json({message:"User not found"})
+        }
+        return res.status(200).json({message:"User found", user})
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        return res.status(500).json({ message: "Server error" });
     }
 }
