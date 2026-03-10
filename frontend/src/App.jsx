@@ -1,10 +1,10 @@
 import React from 'react'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './AppRoutes'
 
 const App = () => {
   return (
-    <div className='bg-black h-screen'>
-      
-    </div>
+   <RouterProvider router={router}/>
   )
 }
 
