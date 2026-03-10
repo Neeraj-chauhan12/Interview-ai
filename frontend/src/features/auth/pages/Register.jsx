@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-   
-  });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [username,setusername]=useState("");
+  const [email,setemail]=useState("");
+  const [password,setpassword]=useState("");
+
+  const {loading,handleRegister}=useAuth();
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleRegister({username,email,password})
   
-    // Handle registration logic here
-    console.log('Registration attempt:', formData);
+    
   };
+
+   if(loading){
+    return <h1>Loading....</h1>
+  }
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center px-4 py-8'>
@@ -38,12 +37,12 @@ const Register = () => {
             </label>
             <input
               type='text'
-              id='name'
-              name='name'
-              value={formData.name}
-              onChange={handleChange}
+              id='username'
+              name='username'
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
               className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
-              placeholder='Enter your full name'
+              placeholder='Enter your username'
               required
             />
           </div>
@@ -56,8 +55,8 @@ const Register = () => {
               type='email'
               id='email'
               name='email'
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
               className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
               placeholder='Enter your email'
               required
@@ -72,8 +71,8 @@ const Register = () => {
               type='password'
               id='password'
               name='password'
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
               className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
               placeholder='Create a password'
               required
