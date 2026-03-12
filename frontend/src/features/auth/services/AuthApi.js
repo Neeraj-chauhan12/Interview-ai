@@ -2,7 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
-  include: "credentials",
   withCredentials: true,
 });
 
@@ -15,7 +14,7 @@ export const register = async ({ username, email, password }) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Registration error:", error)
+    console.error("Registration error:", error?.response?.data || error)
 
   }
 };

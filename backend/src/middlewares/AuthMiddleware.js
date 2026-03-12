@@ -2,7 +2,7 @@ const jwt=require("jsonwebtoken");
 const BlackListed=require("../models/BlackListed")
 
 exports.AuthMiddleware=async(req,res,next)=>{
-    const token=req.cookies.token;
+    const token=req.Cookies.token;
     if(!token){
         return res.status(401).json({message:"Unauthorized"})
     }
@@ -20,6 +20,6 @@ exports.AuthMiddleware=async(req,res,next)=>{
         next();
         
     } catch (error) {
-        return res.status(401).json({message:"Invalid token"})
+        return res.status(401).json({message:"Invalid token"});
     }
 }

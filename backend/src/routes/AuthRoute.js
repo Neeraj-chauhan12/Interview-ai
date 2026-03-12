@@ -7,7 +7,7 @@ const router=Router()
 router.post("/register",register);
 router.post("/login",login)
 router.get("/logout",logout)
-router.get("/getuser",AuthMiddleware,getUser)
+router.get("/getme",AuthMiddleware,getUser)
 
 
 module.exports=router
