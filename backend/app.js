@@ -1,4 +1,5 @@
 const express=require('express')
+const cookieParser = require('cookie-parser');
 const app=express();
 require('dotenv').config()
 const cors=require('cors');
@@ -7,6 +8,7 @@ const authRoute=require('./src/routes/AuthRoute')
 
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin:"http://localhost:5173",
 
@@ -14,7 +16,9 @@ app.use(cors({
     methods:["GET","POST","PUT","DELETE"],
     
     
+    
 }));
+
 
 
 // database connection

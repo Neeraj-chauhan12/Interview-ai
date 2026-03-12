@@ -6,8 +6,6 @@ const Protected = ({children}) => {
 
     const {loading,user}=useAuth();
 
-    console.log("Protected user:", user);
-
     if(loading){
     return <h1>Loading....</h1>
   }
