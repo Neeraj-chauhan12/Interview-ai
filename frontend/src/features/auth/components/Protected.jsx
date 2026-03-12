@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { Navigate } from 'react-router-dom';
 
 const Protected = ({children}) => {
 
     const {loading,user}=useAuth();
+
+    console.log("Protected user:", user);
 
     if(loading){
     return <h1>Loading....</h1>
@@ -14,7 +16,11 @@ const Protected = ({children}) => {
     return <Navigate to="/login" />
   }
 
-  return children
+  if(user){ 
+    return children
+  }
+
+  // return children
 }
 
 export default Protected

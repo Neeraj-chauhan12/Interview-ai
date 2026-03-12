@@ -16,6 +16,7 @@ export const useAuth = () => {
     try {
       const data = await login({ email, password });
       setUser(data?.user);
+      console.log(data?.user);
     } catch (error) {
       console.log(error);
     } finally {
@@ -65,6 +66,6 @@ export const useAuth = () => {
     handleLogin,
     handleLogout,
     handleRegister,
-    handleGetme,
+   handleGetme,
   };
 };

@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const BlackListed=require("../models/BlackListed")
-const bcrypt = require("bcryptjs");
+const Bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-parser");       
 
@@ -13,9 +13,7 @@ exports.register = async (req, res) => {
         return res.status(400).json({message:"All fields are required"})
     }
 
-    const existUser = await User.findOne({
-      $or: [{username }, { email }],
-    });
+    const existUser = await User.findOne({$or:[{email:email},{username:username}]});
 
     if (existUser) {
       return res
@@ -23,23 +21,23 @@ exports.register = async (req, res) => {
         .json({ message: "Username or email already exists" });
     }
 
-    const Hashed=await bcrypt.hash(password,10);
+    const Hashed=await Bcrypt.hash(password,10);
 
-    const newUser=new User({
+    const newUser=await User.create({
         username,
         email,
         password:Hashed
     })
-    await newUser.save();
+    // await newUser.save();
 
     const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:"1d"})
     res.cookie("token", token, { httpOnly: true });
 
-    return res.status(201).json({ message: "User registered successfully", token, user: newUser });
+    return res.status(201).json({ message: "User registered successfully", user: newUser });
 
   } catch (error) {
-    console.error("Error checking existing user:", error);
-    return res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -54,7 +52,7 @@ exports.login=async(req,res)=>{
             return res.status(400).json({message:"Invalid email or password"})
         }
 
-        const isMatch=await bcrypt.compare(password,user.password);
+        const isMatch=await Bcrypt.compare(password,user.password);
         if(!isMatch){
             return res.status(400).json({message:"Invalid email or password"})
         }  
