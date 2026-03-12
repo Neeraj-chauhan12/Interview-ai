@@ -85,7 +85,7 @@ exports.logout=async(req,res)=>{
 
 
 exports.getUser=async(req,res)=>{
-    const userId=req.user._id;
+    const userId=req.user.id;
     try {
         const user=await User.findById(userId).select("-password");
         if(!user){

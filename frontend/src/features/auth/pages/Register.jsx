@@ -8,16 +8,14 @@ const Register = () => {
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
 
-  const { loading, handleRegister,user } = useAuth();
+  const { loading, handleRegister } = useAuth();
 
-  if(user){
-    navigate("/");
-    
-  }
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    handleRegister({ username, email, password });
+    await handleRegister({ username, email, password });
+    navigate("/")
   };
 
   if (loading) {

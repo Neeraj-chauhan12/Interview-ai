@@ -6,19 +6,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loading, handleLogin, user } = useAuth();
+  const { loading, handleLogin } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
-    handleLogin({ email, password });
+    await handleLogin({ email, password });
+    navigate("/");
   };
 
   if (loading) {

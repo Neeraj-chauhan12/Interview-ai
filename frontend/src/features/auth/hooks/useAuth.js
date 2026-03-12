@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { AuthContext } from "../AuthContext";
 import {
+  
   getme,
   login,
   logout,
   register,
 } from "../services/AuthApi";
+import { useEffect } from "react";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -49,16 +51,20 @@ export const useAuth = () => {
     }
   };
 
-  const handleGetme = async () => {
-    try {
-      const data = await getme();
-      setUser(data?.user);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+ useEffect(() => {
+    const initUser = async () => {
+      try {
+        const data = await getme();
+        setUser(data?.user);
+      } catch (error) {
+        // console.error("Failed to init user:", error);
+        // setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    initUser();
+  }, []);
 
   return {
     user,
@@ -66,6 +72,6 @@ export const useAuth = () => {
     handleLogin,
     handleLogout,
     handleRegister,
-   handleGetme,
+
   };
 };
