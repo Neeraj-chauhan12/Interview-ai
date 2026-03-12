@@ -5,17 +5,20 @@ import Register from "./features/auth/pages/Register";
 import Home from "./features/auth/pages/Home";
 import Protected from "./features/auth/components/Protected";
 
-export const router=createBrowserRouter([
+export const router = createBrowserRouter([
   {
-    path:"/",
-    element:<Protected><Home/></Protected>
+    path: "/",
+    element: <Protected><Home /></Protected>,
+    errorElement: <div>Something went wrong!</div>
   },
   {
-    path:"/login",
-    element:<Login/>
+    path: "/login",
+    element: <Login />
   },
   {
-    path:"/register",
-    element:<Register/>
+    path: "/register",
+    element: <Register />
   }
-])
+], {
+  basename: "/"
+});
